@@ -150,6 +150,12 @@ public class DistributionTester
         List<String> commands = new ArrayList<>();
         commands.add(getJavaExecutable());
         commands.add("-Djava.io.tmpdir=" + workDir.toAbsolutePath().toString());
+        int debugPort = Integer.getInteger("distribution.debug.port", 0);
+        if (debugPort > 0)
+        {
+            commands.add("-Xdebug");
+            commands.add("-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=" + debugPort);
+        }
         commands.add("-jar");
         commands.add(config.jettyHome.toAbsolutePath() + "/start.jar");
 
